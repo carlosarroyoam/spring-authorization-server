@@ -1,0 +1,44 @@
+app:
+  cors:
+    allowed-header: "*"
+    allowed-method: "*"
+    allowed-origin: "http://localhost:4200"
+
+server:
+  port: 9000
+
+logging:
+  level:
+    org.springframework.security: info
+
+spring:
+  application:
+    name: authorization-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/user_service
+    username: ${DB_USERNAME:root}
+    password: ${DB_USERNAME:toor}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+          angular-client:
+            registration:
+              client-id: "angular-client"
+              client-authentication-methods:
+                - "none"
+              authorization-grant-types:
+                - "authorization_code"
+              redirect-uris:
+                - "http://localhost:4200"
+              post-logout-redirect-uris:
+                - "http://localhost:4200"
+              scopes:
+                - "openid"
+                - "profile"
+            require-authorization-consent: true
+            require-proof-key: true
