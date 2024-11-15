@@ -11,12 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @Data
-@NoArgsConstructor
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +22,6 @@ public class User {
 
 	@Column(name = "name", length = 128, nullable = false)
 	private String name;
-
-	@Column(name = "age", nullable = false)
-	private Byte age;
 
 	@Column(name = "email", length = 128, nullable = false, unique = true)
 	private String email;
@@ -52,15 +47,4 @@ public class User {
 
 	@Column(name = "updated_at", nullable = false)
 	private LocalDateTime updatedAt;
-
-	public User(String name, String email, String username, String password, Integer roleId, LocalDateTime createdAt,
-			LocalDateTime updatedAt) {
-		this.name = name;
-		this.email = email;
-		this.username = username;
-		this.password = password;
-		this.roleId = roleId;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
 }

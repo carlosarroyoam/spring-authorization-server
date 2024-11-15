@@ -1,11 +1,16 @@
 package com.carlosarroyoam.authorizationserver.service;
 
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.carlosarroyoam.authorizationserver.config.security.SecurityUser;
+import com.carlosarroyoam.authorizationserver.entity.User;
 import com.carlosarroyoam.authorizationserver.repository.UserRepository;
 
 @Service
@@ -18,19 +23,32 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("loading");
-		return userRepository.findByUsername(username).map(SecurityUser::new)
-				.orElseThrow(() -> {
-					return new UsernameNotFoundException("Username not found: " + username);
-				});
+		User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
+			return new UsernameNotFoundException("Username not found: " + username);
+		});
+
+		return buildUserDetails(userByUsername);
 	}
 
-	public com.carlosarroyoam.authorizationserver.entity.User findByUsername(String username) {
-		com.carlosarroyoam.authorizationserver.entity.User userByUsername = userRepository.findByUsername(username)
-				.orElseThrow(() -> {
-					return new UsernameNotFoundException("Username not found: " + username);
-				});
+	public User findByUsername(String username) {
+		User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
+			return new UsernameNotFoundException("Username not found: " + username);
+		});
 
 		return userByUsername;
+	}
+
+	private org.springframework.security.core.userdetails.User buildUserDetails(User user) {
+		String username = user.getUsername();
+		String password = user.getPassword();
+		boolean enabled = user.getIsActive();
+		boolean accountNonExpired = user.getIsActive();
+		boolean credentialsNonExpired = user.getIsActive();
+		boolean accountNonLocked = user.getIsActive();
+		Collection<? extends GrantedAuthority> authorities = Arrays
+				.asList(new SimpleGrantedAuthority(user.getRole().getTitle()));
+
+		return new org.springframework.security.core.userdetails.User(username, password, enabled, accountNonExpired,
+				credentialsNonExpired, accountNonLocked, authorities);
 	}
 }
