@@ -23,23 +23,6 @@ CREATE TABLE `users` (
   CONSTRAINT `FK_users_role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `clients` (
-    `id` varchar(255) NOT NULL,
-    `client_id` varchar(255) NOT NULL,
-    `client_id_issued_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    `client_secret` varchar(255) DEFAULT NULL,
-    `client_secret_expires_at` timestamp DEFAULT NULL,
-    `client_name` varchar(255) NOT NULL,
-    `client_authentication_methods` varchar(1000) NOT NULL,
-    `authorization_grant_types` varchar(1000) NOT NULL,
-    `redirect_uris` varchar(1000) DEFAULT NULL,
-    `post_logout_redirect_uris` varchar(1000) DEFAULT NULL,
-    `scopes` varchar(1000) NOT NULL,
-    `client_settings` varchar(2000) NOT NULL,
-    `token_settings` varchar(2000) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 CREATE TABLE `authorizations` (
     `id` varchar(255) NOT NULL,
     `registered_client_id` varchar(255) NOT NULL,
