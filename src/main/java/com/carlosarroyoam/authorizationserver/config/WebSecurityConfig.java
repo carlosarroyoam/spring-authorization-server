@@ -31,6 +31,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.carlosarroyoam.authorizationserver.utils.StringUtils;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -39,15 +40,15 @@ import com.nimbusds.jose.proc.SecurityContext;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-	@Value("${app.cors.allowed-header}")
-	private String allowedHeader;
+public class WebSecurityConfig {
+	@Value("${app.cors.allowed-origins}")
+	private String allowedOrigins;
 
-	@Value("${app.cors.allowed-method}")
-	private String allowedMethod;
+	@Value("${app.cors.allowed-methods}")
+	private String allowedMethods;
 
-	@Value("${app.cors.allowed-origin}")
-	private String allowedOrigin;
+	@Value("${app.cors.allowed-headers}")
+	private String allowedHeaders;
 
 	@Bean
 	@Order(1)
@@ -72,11 +73,6 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	AuthorizationServerSettings authorizationServerSettings() {
-		return AuthorizationServerSettings.builder().build();
-	}
-
-	@Bean
 	AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
 			PasswordEncoder passwordEncoder) {
 		var authenticationProvider = new DaoAuthenticationProvider();
@@ -84,6 +80,19 @@ public class SecurityConfig {
 		authenticationProvider.setPasswordEncoder(passwordEncoder);
 
 		return new ProviderManager(authenticationProvider);
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(StringUtils.comaSeparatedToList(allowedOrigins));
+		configuration.setAllowedMethods(StringUtils.comaSeparatedToList(allowedMethods));
+		configuration.setAllowedHeaders(StringUtils.comaSeparatedToList(allowedHeaders));
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+
+		return source;
 	}
 
 	@Bean
@@ -99,6 +108,11 @@ public class SecurityConfig {
 	}
 
 	@Bean
+	AuthorizationServerSettings authorizationServerSettings() {
+		return AuthorizationServerSettings.builder().build();
+	}
+
+	@Bean
 	JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
 		return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
 	}
@@ -106,18 +120,6 @@ public class SecurityConfig {
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration config = new CorsConfiguration();
-		config.addAllowedHeader(allowedHeader);
-		config.addAllowedMethod(allowedMethod);
-		config.addAllowedOrigin(allowedOrigin);
-		config.setAllowCredentials(true);
-		source.registerCorsConfiguration("/**", config);
-		return source;
 	}
 
 	private static KeyPair generateRsaKey() {
