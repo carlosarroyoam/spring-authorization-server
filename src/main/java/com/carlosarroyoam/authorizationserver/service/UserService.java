@@ -1,8 +1,9 @@
 package com.carlosarroyoam.authorizationserver.service;
 
+import com.carlosarroyoam.authorizationserver.entity.User;
+import com.carlosarroyoam.authorizationserver.repository.UserRepository;
 import java.util.Arrays;
 import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,45 +11,42 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.carlosarroyoam.authorizationserver.entity.User;
-import com.carlosarroyoam.authorizationserver.repository.UserRepository;
-
 @Service
 public class UserService implements UserDetailsService {
-	private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+  public UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
-			return new UsernameNotFoundException("Username not found: " + username);
-		});
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
+      return new UsernameNotFoundException("Username not found: " + username);
+    });
 
-		return buildUserDetails(userByUsername);
-	}
+    return buildUserDetails(userByUsername);
+  }
 
-	public User findByUsername(String username) {
-		User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
-			return new UsernameNotFoundException("Username not found: " + username);
-		});
+  public User findByUsername(String username) {
+    User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
+      return new UsernameNotFoundException("Username not found: " + username);
+    });
 
-		return userByUsername;
-	}
+    return userByUsername;
+  }
 
-	private org.springframework.security.core.userdetails.User buildUserDetails(User user) {
-		String username = user.getUsername();
-		String password = user.getPassword();
-		boolean enabled = user.getIsActive();
-		boolean accountNonExpired = user.getIsActive();
-		boolean credentialsNonExpired = user.getIsActive();
-		boolean accountNonLocked = user.getIsActive();
-		Collection<? extends GrantedAuthority> authorities = Arrays
-				.asList(new SimpleGrantedAuthority(user.getRole().getTitle()));
+  private org.springframework.security.core.userdetails.User buildUserDetails(User user) {
+    String username = user.getUsername();
+    String password = user.getPassword();
+    boolean enabled = user.getIsActive();
+    boolean accountNonExpired = user.getIsActive();
+    boolean credentialsNonExpired = user.getIsActive();
+    boolean accountNonLocked = user.getIsActive();
+    Collection<? extends GrantedAuthority> authorities = Arrays
+        .asList(new SimpleGrantedAuthority(user.getRole().getTitle()));
 
-		return new org.springframework.security.core.userdetails.User(username, password, enabled, accountNonExpired,
-				credentialsNonExpired, accountNonLocked, authorities);
-	}
+    return new org.springframework.security.core.userdetails.User(username, password, enabled,
+        accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+  }
 }
