@@ -21,8 +21,8 @@ public class JpaOAuth2AuthorizationConsentService implements OAuth2Authorization
   private final RegisteredClientRepository registeredClientRepository;
 
   public JpaOAuth2AuthorizationConsentService(
-      AuthorizationConsentRepository authorizationConsentRepository,
-      RegisteredClientRepository registeredClientRepository) {
+      final AuthorizationConsentRepository authorizationConsentRepository,
+      final RegisteredClientRepository registeredClientRepository) {
     Assert.notNull(authorizationConsentRepository, "authorizationConsentRepository cannot be null");
     Assert.notNull(registeredClientRepository, "registeredClientRepository cannot be null");
     this.authorizationConsentRepository = authorizationConsentRepository;

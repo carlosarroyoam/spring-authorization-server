@@ -38,8 +38,8 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
   private final RegisteredClientRepository registeredClientRepository;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  public JpaOAuth2AuthorizationService(AuthorizationRepository authorizationRepository,
-      RegisteredClientRepository registeredClientRepository) {
+  public JpaOAuth2AuthorizationService(final AuthorizationRepository authorizationRepository,
+      final RegisteredClientRepository registeredClientRepository) {
     Assert.notNull(authorizationRepository, "authorizationRepository cannot be null");
     Assert.notNull(registeredClientRepository, "registeredClientRepository cannot be null");
     this.authorizationRepository = authorizationRepository;

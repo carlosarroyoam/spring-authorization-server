@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class OidcUserInfoService {
   private final UserRepository userRepository;
 
-  public OidcUserInfoService(UserRepository userRepository) {
+  public OidcUserInfoService(final UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
