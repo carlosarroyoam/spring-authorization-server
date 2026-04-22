@@ -54,9 +54,11 @@ public class WebSecurityConfig {
     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
     http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
 
-    http.exceptionHandling((exceptions) -> exceptions.defaultAuthenticationEntryPointFor(
-        new LoginUrlAuthenticationEntryPoint("/login"),
-        new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
+    http.exceptionHandling(
+            (exceptions) ->
+                exceptions.defaultAuthenticationEntryPointFor(
+                    new LoginUrlAuthenticationEntryPoint("/login"),
+                    new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
         .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
 
     return http.cors(Customizer.withDefaults()).build();
@@ -72,8 +74,8 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
-      PasswordEncoder passwordEncoder) {
+  AuthenticationManager authenticationManager(
+      UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
     var authenticationProvider = new DaoAuthenticationProvider();
     authenticationProvider.setUserDetailsService(userDetailsService);
     authenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -99,9 +101,11 @@ public class WebSecurityConfig {
     KeyPair keyPair = generateRsaKey();
     RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
     RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-    RSAKey rsaKey = new RSAKey.Builder(publicKey).privateKey(privateKey)
-        .keyID(UUID.randomUUID().toString())
-        .build();
+    RSAKey rsaKey =
+        new RSAKey.Builder(publicKey)
+            .privateKey(privateKey)
+            .keyID(UUID.randomUUID().toString())
+            .build();
     JWKSet jwkSet = new JWKSet(rsaKey);
 
     return new ImmutableJWKSet<>(jwkSet);

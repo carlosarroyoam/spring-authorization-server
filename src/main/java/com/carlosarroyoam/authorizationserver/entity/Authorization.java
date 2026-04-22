@@ -11,17 +11,13 @@ import lombok.Data;
 @Table(name = "authorizations")
 @Data
 public class Authorization {
-  @Id
-  private String id;
+  @Id private String id;
 
-  @Column
-  private String registeredClientId;
+  @Column private String registeredClientId;
 
-  @Column
-  private String principalName;
+  @Column private String principalName;
 
-  @Column
-  private String authorizationGrantType;
+  @Column private String authorizationGrantType;
 
   @Column(length = 1000)
   private String authorizedScopes;
@@ -35,29 +31,23 @@ public class Authorization {
   @Column(length = 4000)
   private String authorizationCodeValue;
 
-  @Column
-  private Instant authorizationCodeIssuedAt;
+  @Column private Instant authorizationCodeIssuedAt;
 
-  @Column
-  private Instant authorizationCodeExpiresAt;
+  @Column private Instant authorizationCodeExpiresAt;
 
-  @Column
-  private String authorizationCodeMetadata;
+  @Column private String authorizationCodeMetadata;
 
   @Column(length = 4000)
   private String accessTokenValue;
 
-  @Column
-  private Instant accessTokenIssuedAt;
+  @Column private Instant accessTokenIssuedAt;
 
-  @Column
-  private Instant accessTokenExpiresAt;
+  @Column private Instant accessTokenExpiresAt;
 
   @Column(length = 2000)
   private String accessTokenMetadata;
 
-  @Column
-  private String accessTokenType;
+  @Column private String accessTokenType;
 
   @Column(length = 1000)
   private String accessTokenScopes;
@@ -65,11 +55,9 @@ public class Authorization {
   @Column(length = 4000)
   private String refreshTokenValue;
 
-  @Column
-  private Instant refreshTokenIssuedAt;
+  @Column private Instant refreshTokenIssuedAt;
 
-  @Column
-  private Instant refreshTokenExpiresAt;
+  @Column private Instant refreshTokenExpiresAt;
 
   @Column(length = 2000)
   private String refreshTokenMetadata;
@@ -77,11 +65,9 @@ public class Authorization {
   @Column(length = 4000)
   private String oidcIdTokenValue;
 
-  @Column
-  private Instant oidcIdTokenIssuedAt;
+  @Column private Instant oidcIdTokenIssuedAt;
 
-  @Column
-  private Instant oidcIdTokenExpiresAt;
+  @Column private Instant oidcIdTokenExpiresAt;
 
   @Column(length = 2000)
   private String oidcIdTokenMetadata;
@@ -92,11 +78,9 @@ public class Authorization {
   @Column(length = 4000)
   private String userCodeValue;
 
-  @Column
-  private Instant userCodeIssuedAt;
+  @Column private Instant userCodeIssuedAt;
 
-  @Column
-  private Instant userCodeExpiresAt;
+  @Column private Instant userCodeExpiresAt;
 
   @Column(length = 2000)
   private String userCodeMetadata;
@@ -104,11 +88,9 @@ public class Authorization {
   @Column(length = 4000)
   private String deviceCodeValue;
 
-  @Column
-  private Instant deviceCodeIssuedAt;
+  @Column private Instant deviceCodeIssuedAt;
 
-  @Column
-  private Instant deviceCodeExpiresAt;
+  @Column private Instant deviceCodeExpiresAt;
 
   @Column(length = 2000)
   private String deviceCodeMetadata;

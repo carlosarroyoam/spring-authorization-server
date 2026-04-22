@@ -16,16 +16,21 @@ public class OidcUserInfoService {
   }
 
   public OidcUserInfo loadUser(String username) {
-    User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
-      return new UsernameNotFoundException("Username not found: " + username);
-    });
+    User userByUsername =
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(
+                () -> {
+                  return new UsernameNotFoundException("Username not found: " + username);
+                });
 
-    Map<String, Object> claims = OidcUserInfo.builder()
-        .subject(username)
-        .name(userByUsername.getName())
-        .preferredUsername(username)
-        .build()
-        .getClaims();
+    Map<String, Object> claims =
+        OidcUserInfo.builder()
+            .subject(username)
+            .name(userByUsername.getName())
+            .preferredUsername(username)
+            .build()
+            .getClaims();
 
     return new OidcUserInfo(claims);
   }

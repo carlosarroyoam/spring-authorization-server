@@ -13,10 +13,11 @@ public class StringUtils {
 
   public static List<String> commaSeparatedToList(String input) {
     return Optional.ofNullable(input)
-        .map(value -> Arrays.asList(value.replace("\"", "").split(",", -1))
-            .stream()
-            .map(String::trim)
-            .toList())
+        .map(
+            value ->
+                Arrays.asList(value.replace("\"", "").split(",", -1)).stream()
+                    .map(String::trim)
+                    .toList())
         .orElse(Collections.emptyList());
   }
 }

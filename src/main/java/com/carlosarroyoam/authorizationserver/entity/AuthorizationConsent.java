@@ -14,11 +14,9 @@ import lombok.Data;
 @IdClass(AuthorizationConsent.AuthorizationConsentId.class)
 @Data
 public class AuthorizationConsent {
-  @Id
-  private String registeredClientId;
+  @Id private String registeredClientId;
 
-  @Id
-  private String principalName;
+  @Id private String principalName;
 
   @Column(length = 1000)
   private String authorities;

@@ -54,18 +54,21 @@ public class JpaOAuth2AuthorizationConsentService implements OAuth2Authorization
 
   private OAuth2AuthorizationConsent toObject(AuthorizationConsent authorizationConsent) {
     String registeredClientId = authorizationConsent.getRegisteredClientId();
-    RegisteredClient registeredClient = this.registeredClientRepository
-        .findById(registeredClientId);
+    RegisteredClient registeredClient =
+        this.registeredClientRepository.findById(registeredClientId);
     if (registeredClient == null) {
-      throw new DataRetrievalFailureException("The RegisteredClient with id '" + registeredClientId
-          + "' was not found in the RegisteredClientRepository.");
+      throw new DataRetrievalFailureException(
+          "The RegisteredClient with id '"
+              + registeredClientId
+              + "' was not found in the RegisteredClientRepository.");
     }
 
-    OAuth2AuthorizationConsent.Builder builder = OAuth2AuthorizationConsent
-        .withId(registeredClientId, authorizationConsent.getPrincipalName());
+    OAuth2AuthorizationConsent.Builder builder =
+        OAuth2AuthorizationConsent.withId(
+            registeredClientId, authorizationConsent.getPrincipalName());
     if (authorizationConsent.getAuthorities() != null) {
-      for (String authority : StringUtils
-          .commaDelimitedListToSet(authorizationConsent.getAuthorities())) {
+      for (String authority :
+          StringUtils.commaDelimitedListToSet(authorizationConsent.getAuthorities())) {
         builder.authority(new SimpleGrantedAuthority(authority));
       }
     }

@@ -21,17 +21,25 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
-      return new UsernameNotFoundException("Username not found: " + username);
-    });
+    User userByUsername =
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(
+                () -> {
+                  return new UsernameNotFoundException("Username not found: " + username);
+                });
 
     return buildUserDetails(userByUsername);
   }
 
   public User findByUsername(String username) {
-    User userByUsername = userRepository.findByUsername(username).orElseThrow(() -> {
-      return new UsernameNotFoundException("Username not found: " + username);
-    });
+    User userByUsername =
+        userRepository
+            .findByUsername(username)
+            .orElseThrow(
+                () -> {
+                  return new UsernameNotFoundException("Username not found: " + username);
+                });
 
     return userByUsername;
   }
@@ -43,10 +51,16 @@ public class UserService implements UserDetailsService {
     boolean accountNonExpired = user.getIsActive();
     boolean credentialsNonExpired = user.getIsActive();
     boolean accountNonLocked = user.getIsActive();
-    Collection<? extends GrantedAuthority> authorities = Arrays
-        .asList(new SimpleGrantedAuthority(user.getRole().getTitle()));
+    Collection<? extends GrantedAuthority> authorities =
+        Arrays.asList(new SimpleGrantedAuthority(user.getRole().getTitle()));
 
-    return new org.springframework.security.core.userdetails.User(username, password, enabled,
-        accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    return new org.springframework.security.core.userdetails.User(
+        username,
+        password,
+        enabled,
+        accountNonExpired,
+        credentialsNonExpired,
+        accountNonLocked,
+        authorities);
   }
 }
