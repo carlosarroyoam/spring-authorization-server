@@ -1,0 +1,154 @@
+{
+  "info": {
+    "_postman_id": "0bc22862-ead5-4724-9b8c-894f19f56acd",
+    "name": "Spring Authorization Server",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "6677786"
+  },
+  "item": [
+    {
+      "name": "/userinfo",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{authServerUrl}}/userinfo",
+          "host": [
+            "{{authServerUrl}}"
+          ],
+          "path": [
+            "userinfo"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "openid profile email",
+        "type": "string"
+      },
+      {
+        "key": "useBrowser",
+        "value": false,
+        "type": "boolean"
+      },
+      {
+        "key": "clientSecret",
+        "value": "{{authServerSecret}}",
+        "type": "string"
+      },
+      {
+        "key": "refreshTokenUrl",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "{{authServerUrl}}/oauth2/token",
+        "type": "string"
+      },
+      {
+        "key": "authUrl",
+        "value": "{{authServerUrl}}/oauth2/authorize",
+        "type": "string"
+      },
+      {
+        "key": "clientId",
+        "value": "{{authServerClientId}}",
+        "type": "string"
+      },
+      {
+        "key": "redirect_uri",
+        "value": "{{authServerCallbackUrl}}",
+        "type": "string"
+      },
+      {
+        "key": "tokenName",
+        "value": "auth-server-access-token",
+        "type": "string"
+      },
+      {
+        "key": "refreshRequestParams",
+        "value": [],
+        "type": "any"
+      },
+      {
+        "key": "tokenRequestParams",
+        "value": [],
+        "type": "any"
+      },
+      {
+        "key": "authRequestParams",
+        "value": [],
+        "type": "any"
+      },
+      {
+        "key": "challengeAlgorithm",
+        "value": "S256",
+        "type": "string"
+      },
+      {
+        "key": "addTokenTo",
+        "value": "header",
+        "type": "string"
+      },
+      {
+        "key": "client_authentication",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "authServerUrl",
+      "value": ""
+    },
+    {
+      "key": "authServerCallbackUrl",
+      "value": ""
+    },
+    {
+      "key": "authServerClientId",
+      "value": ""
+    },
+    {
+      "key": "authServerSecret",
+      "value": ""
+    }
+  ]
+}
