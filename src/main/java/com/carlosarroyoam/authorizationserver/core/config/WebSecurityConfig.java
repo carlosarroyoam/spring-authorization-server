@@ -45,7 +45,13 @@ public class WebSecurityConfig {
 
     http.authorizeHttpRequests(
         authorize ->
-            authorize.requestMatchers("/login", "/error").permitAll().anyRequest().authenticated());
+            authorize
+                .requestMatchers("/login")
+                .permitAll()
+                .requestMatchers("/error")
+                .permitAll()
+                .anyRequest()
+                .authenticated());
 
     return http.build();
   }
