@@ -23,6 +23,7 @@ public class AuthorizationServerApplication {
   CommandLineRunner initClients(
       JdbcRegisteredClientRepository repo, PasswordEncoder encoder, TokenSettings tokenSettings) {
     return args -> {
+      System.out.println(encoder.encode("secret123"));
       if (repo.findByClientId("postman-client") == null) {
         RegisteredClient postman =
             RegisteredClient.withId(UUID.randomUUID().toString())
@@ -34,6 +35,7 @@ public class AuthorizationServerApplication {
                 .redirectUri("https://oauth.pstmn.io/v1/callback")
                 .scope("openid")
                 .scope("profile")
+                .scope("email")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .tokenSettings(tokenSettings)
                 .build();
@@ -51,6 +53,7 @@ public class AuthorizationServerApplication {
                 .postLogoutRedirectUri("http://localhost:4200")
                 .scope("openid")
                 .scope("profile")
+                .scope("email")
                 .clientSettings(
                     ClientSettings.builder()
                         .requireAuthorizationConsent(true)

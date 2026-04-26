@@ -4,18 +4,30 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import lombok.Data;
+import java.util.HashSet;
+import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,23 +39,30 @@ public class User {
   @Column(name = "last_name", length = 64, nullable = false)
   private String lastName;
 
-  @Column(name = "email", length = 128, nullable = false, unique = true)
+  @Column(name = "email", length = 64, nullable = false)
   private String email;
 
-  @Column(name = "password_hash", length = 128, nullable = false)
+  @Column(name = "password_hash", length = 254, nullable = false)
   private String passwordHash;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", length = 32, nullable = false)
   private UserStatus status;
 
-  @ManyToOne
-  @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-  private Role role;
+  @Builder.Default
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+      name = "user_roles",
+      joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+  private Set<Role> roles = new HashSet<>();
 
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
 
   @Column(name = "updated_at", nullable = false)
   private LocalDateTime updatedAt;
+
+  @Column(name = "deleted_at")
+  private LocalDateTime deletedAt;
 }

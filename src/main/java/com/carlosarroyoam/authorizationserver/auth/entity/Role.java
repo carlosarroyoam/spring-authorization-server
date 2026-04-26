@@ -5,26 +5,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Byte id;
 
-  @Column(name = "name", length = 32, nullable = false, unique = true)
+  @Column(name = "name", length = 32, nullable = false)
   private String name;
 
-  @Column(name = "description", length = 128, nullable = false)
+  @Column(name = "description", length = 256, nullable = false)
   private String description;
-
-  @OneToMany(mappedBy = "role")
-  private List<User> users = new ArrayList<>();
 }

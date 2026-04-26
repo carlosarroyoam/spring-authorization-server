@@ -1,8 +1,10 @@
 package com.carlosarroyoam.authorizationserver.core.config;
 
+import com.carlosarroyoam.authorizationserver.auth.UserRepository;
+import com.carlosarroyoam.authorizationserver.auth.entity.Role;
+import com.carlosarroyoam.authorizationserver.auth.entity.User;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
@@ -12,17 +14,23 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 @Configuration
 public class TokenConfig {
   @Bean
-  OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {
+  OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(UserRepository userRepository) {
     return context -> {
-      if ("access_token".equals(context.getTokenType().getValue())) {
-        List<String> roles = new ArrayList<>();
-        context
-            .getPrincipal()
-            .getAuthorities()
-            .forEach(auth -> roles.add(auth.getAuthority().replace("ROLE_", "")));
+      User userByEmail =
+          userRepository
+              .findByEmail(context.getPrincipal().getName())
+              .orElseThrow(() -> new RuntimeException("User not found"));
 
-        context.getClaims().claim("roles", roles);
-      }
+      context
+          .getClaims()
+          .claim("email", userByEmail.getEmail())
+          .claim("user_id", userByEmail.getId().toString())
+          .claim("name", userByEmail.getFirstName() + " " + userByEmail.getLastName())
+          .claim("given_name", userByEmail.getFirstName())
+          .claim("family_name", userByEmail.getLastName())
+          .claim(
+              "roles",
+              userByEmail.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
     };
   }
 

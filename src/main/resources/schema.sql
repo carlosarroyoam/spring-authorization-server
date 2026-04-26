@@ -21,15 +21,22 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(64) NOT NULL,
     password_hash VARCHAR(254) NOT NULL,
     status VARCHAR(32) NOT NULL DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'INACTIVE', 'DELETED')),
-    role_id TINYINT UNSIGNED NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY uk_users_email (email),
-    KEY fk_users_role_id (role_id),
-    INDEX idx_users_deleted_at (deleted_at),
-    CONSTRAINT fk_users_role_id FOREIGN KEY (role_id) REFERENCES roles (id)
+    INDEX idx_users_deleted_at (deleted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS user_roles (
+    user_id BIGINT UNSIGNED NOT NULL,
+    role_id TINYINT UNSIGNED NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_user_roles_user_id
+        FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_user_roles_role_id
+        FOREIGN KEY (role_id) REFERENCES roles (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
