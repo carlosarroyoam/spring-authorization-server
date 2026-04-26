@@ -1,4 +1,4 @@
-package com.carlosarroyoam.authorizationserver.entity;
+package com.carlosarroyoam.authorizationserver.auth.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +17,7 @@ import lombok.Data;
 public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Byte id;
 
   @Column(name = "name", length = 32, nullable = false, unique = true)
   private String name;

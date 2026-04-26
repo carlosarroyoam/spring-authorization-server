@@ -1,7 +1,9 @@
-package com.carlosarroyoam.authorizationserver.entity;
+package com.carlosarroyoam.authorizationserver.auth.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,31 +21,24 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "name", length = 128, nullable = false)
-  private String name;
+  @Column(name = "first_name", length = 64, nullable = false)
+  private String firstName;
+
+  @Column(name = "last_name", length = 64, nullable = false)
+  private String lastName;
 
   @Column(name = "email", length = 128, nullable = false, unique = true)
   private String email;
 
-  @Column(name = "username", length = 128, nullable = false, unique = true)
-  private String username;
+  @Column(name = "password_hash", length = 128, nullable = false)
+  private String passwordHash;
 
-  @Column(name = "password", length = 128, nullable = false)
-  private String password;
-
-  @Column(name = "is_active", nullable = false)
-  private Boolean isActive;
-
-  @Column(name = "role_id", nullable = false)
-  private Integer roleId;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status", length = 32, nullable = false)
+  private UserStatus status;
 
   @ManyToOne
-  @JoinColumn(
-      name = "role_id",
-      referencedColumnName = "id",
-      insertable = false,
-      updatable = false,
-      nullable = false)
+  @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
   private Role role;
 
   @Column(name = "created_at", nullable = false)

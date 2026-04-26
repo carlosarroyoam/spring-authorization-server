@@ -1,4 +1,7 @@
 application:
+  auth:
+    server:
+      issuer: http://localhost:9000
   cors:
     allowed-origins:
       - "http://localhost:4200"
@@ -25,6 +28,7 @@ server:
 logging:
   level:
     org.springframework.security: info
+    logging.level.org.springframework.security: TRACE
 
 spring:
   application:
@@ -37,40 +41,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-  security:
-    oauth2:
-      authorizationserver:
-        client:
-          postman-client:
-            registration:
-              client-id: "postman-client"
-              client-secret: "$2y$10$n8FF9xjVK4sbTke1wx2cEOOxZLqb/GEbLWbtBUVLvkZ5ao9eqxaeq"
-              client-authentication-methods:
-                - "client_secret_basic"
-              authorization-grant-types:
-                - "authorization_code"
-                - "refresh_token"
-              redirect-uris:
-                - "http://127.0.0.1:8080/login/oauth2/code/oidc-client"
-              post-logout-redirect-uris:
-                - "http://127.0.0.1:8080/"
-              scopes:
-                - "openid"
-                - "profile"
-            require-authorization-consent: true
-          angular-client:
-            registration:
-              client-id: "angular-client"
-              client-authentication-methods:
-                - "none"
-              authorization-grant-types:
-                - "authorization_code"
-              redirect-uris:
-                - "http://localhost:4200"
-              post-logout-redirect-uris:
-                - "http://localhost:4200"
-              scopes:
-                - "openid"
-                - "profile"
-            require-authorization-consent: true
-            require-proof-key: true

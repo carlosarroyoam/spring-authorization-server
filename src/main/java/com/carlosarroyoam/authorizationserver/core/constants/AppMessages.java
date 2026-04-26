@@ -1,4 +1,4 @@
-package com.carlosarroyoam.authorizationserver.constants;
+package com.carlosarroyoam.authorizationserver.core.constants;
 
 public class AppMessages {
   public static final String ILLEGAL_ACCESS_EXCEPTION = "Illegal access to utility class";

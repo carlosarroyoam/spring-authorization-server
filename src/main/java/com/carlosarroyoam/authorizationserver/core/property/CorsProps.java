@@ -1,4 +1,4 @@
-package com.carlosarroyoam.authorizationserver.property;
+package com.carlosarroyoam.authorizationserver.core.property;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
