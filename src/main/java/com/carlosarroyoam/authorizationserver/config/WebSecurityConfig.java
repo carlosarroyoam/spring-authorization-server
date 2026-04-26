@@ -1,6 +1,6 @@
 package com.carlosarroyoam.authorizationserver.config;
 
-import com.carlosarroyoam.authorizationserver.utils.StringUtils;
+import com.carlosarroyoam.authorizationserver.property.CorsProps;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -11,7 +11,6 @@ import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -39,61 +38,53 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-  @Value("${app.cors.allowed-origins}")
-  private String allowedOrigins;
-
-  @Value("${app.cors.allowed-methods}")
-  private String allowedMethods;
-
-  @Value("${app.cors.allowed-headers}")
-  private String allowedHeaders;
-
   @Bean
   @Order(1)
-  SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
+  SecurityFilterChain authorizationServerSecurityFilterChain(
+      HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
+    OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+        OAuth2AuthorizationServerConfigurer.authorizationServer();
 
-    http.exceptionHandling(
-            (exceptions) ->
-                exceptions.defaultAuthenticationEntryPointFor(
+    http.cors(cors -> cors.configurationSource(corsConfigurationSource))
+        .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+        .with(authorizationServerConfigurer, auth -> auth.oidc(Customizer.withDefaults()))
+        .oauth2ResourceServer(resourceServer -> resourceServer.jwt(Customizer.withDefaults()))
+        .exceptionHandling(
+            ex ->
+                ex.defaultAuthenticationEntryPointFor(
                     new LoginUrlAuthenticationEntryPoint("/login"),
-                    new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
-        .oauth2ResourceServer((resourceServer) -> resourceServer.jwt(Customizer.withDefaults()));
+                    new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
 
-    return http.cors(Customizer.withDefaults()).build();
+    return http.build();
   }
 
   @Bean
   @Order(2)
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
+    http.cors(Customizer.withDefaults())
+        .authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
         .formLogin(Customizer.withDefaults());
 
-    return http.cors(Customizer.withDefaults()).build();
+    return http.build();
+  }
+
+  @Bean
+  AuthorizationServerSettings authorizationServerSettings() {
+    return AuthorizationServerSettings.builder().build();
+  }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   @Bean
   AuthenticationManager authenticationManager(
       UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-    var authenticationProvider = new DaoAuthenticationProvider();
-    authenticationProvider.setUserDetailsService(userDetailsService);
+    var authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
     authenticationProvider.setPasswordEncoder(passwordEncoder);
 
     return new ProviderManager(authenticationProvider);
-  }
-
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(StringUtils.commaSeparatedToList(allowedOrigins));
-    configuration.setAllowedMethods(StringUtils.commaSeparatedToList(allowedMethods));
-    configuration.setAllowedHeaders(StringUtils.commaSeparatedToList(allowedHeaders));
-
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-
-    return source;
   }
 
   @Bean
@@ -112,18 +103,22 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  AuthorizationServerSettings authorizationServerSettings() {
-    return AuthorizationServerSettings.builder().build();
-  }
-
-  @Bean
   JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
     return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
   }
 
   @Bean
-  PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+  CorsConfigurationSource corsConfigurationSource(CorsProps corsProps) {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(corsProps.getAllowedOrigins());
+    configuration.setAllowedMethods(corsProps.getAllowedMethods());
+    configuration.setAllowedHeaders(corsProps.getAllowedHeaders());
+    configuration.setExposedHeaders(corsProps.getExposedHeaders());
+    configuration.setAllowCredentials(corsProps.getAllowCredentials());
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
   }
 
   private static KeyPair generateRsaKey() {

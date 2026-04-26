@@ -1,8 +1,23 @@
-app:
+application:
   cors:
-    allowed-headers: "authorization, accept, content-type, x-requested-with"
-    allowed-methods: "GET, POST, PUT, DELETE, HEAD, OPTIONS"
-    allowed-origins: "http://localhost:4200"
+    allowed-origins:
+      - "http://localhost:4200"
+    allowed-methods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "HEAD"
+      - "OPTIONS"
+    allowed-headers:
+      - "authorization"
+      - "accept"
+      - "content-type"
+      - "x-requested-with"
+      - "x-xsrf-token"
+    exposed-headers:
+      - "x-xsrf-token"
+    allow-credentials: false
 
 server:
   port: 9000
@@ -16,9 +31,9 @@ spring:
     name: authorization-server
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST:localhost}:3306/authorization_server
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/authorization_server
     username: ${DB_USERNAME:root}
-    password: ${DB_USERNAME:toor}
+    password: ${DB_PASSWORD:toor}
   jpa:
     hibernate:
       ddl-auto: validate

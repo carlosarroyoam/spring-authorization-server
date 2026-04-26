@@ -1,7 +1,7 @@
 CREATE TABLE `roles` (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(128) NOT NULL,
-  `title` varchar(32) NOT NULL,
+  `name` varchar(32) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_roles_title` (`title`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

@@ -24,13 +24,15 @@ public interface AuthorizationRepository extends JpaRepository<Authorization, St
   Optional<Authorization> findByDeviceCodeValue(String deviceCode);
 
   @Query(
-      "select a from Authorization a where a.state = :token"
-          + " or a.authorizationCodeValue = :token"
-          + " or a.accessTokenValue = :token"
-          + " or a.refreshTokenValue = :token"
-          + " or a.oidcIdTokenValue = :token"
-          + " or a.userCodeValue = :token"
-          + " or a.deviceCodeValue = :token")
+      """
+        SELECT a FROM Authorization a WHERE a.state = :token
+          OR a.authorizationCodeValue = :token
+          OR a.accessTokenValue = :token
+          OR a.refreshTokenValue = :token
+          OR a.oidcIdTokenValue = :token
+          OR a.userCodeValue = :token
+          OR a.deviceCodeValue = :token
+    """)
   Optional<Authorization>
       findByStateOrAuthorizationCodeValueOrAccessTokenValueOrRefreshTokenValueOrOidcIdTokenValueOrUserCodeValueOrDeviceCodeValue(
           @Param("token") String token);

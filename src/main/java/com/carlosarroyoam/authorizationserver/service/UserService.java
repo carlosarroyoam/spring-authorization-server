@@ -24,24 +24,15 @@ public class UserService implements UserDetailsService {
     User userByUsername =
         userRepository
             .findByUsername(username)
-            .orElseThrow(
-                () -> {
-                  return new UsernameNotFoundException("Username not found: " + username);
-                });
+            .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
 
     return buildUserDetails(userByUsername);
   }
 
   public User findByUsername(String username) {
-    User userByUsername =
-        userRepository
-            .findByUsername(username)
-            .orElseThrow(
-                () -> {
-                  return new UsernameNotFoundException("Username not found: " + username);
-                });
-
-    return userByUsername;
+    return userRepository
+        .findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
   }
 
   private org.springframework.security.core.userdetails.User buildUserDetails(User user) {
@@ -52,7 +43,7 @@ public class UserService implements UserDetailsService {
     boolean credentialsNonExpired = user.getIsActive();
     boolean accountNonLocked = user.getIsActive();
     Collection<? extends GrantedAuthority> authorities =
-        Arrays.asList(new SimpleGrantedAuthority(user.getRole().getTitle()));
+        Arrays.asList(new SimpleGrantedAuthority(user.getRole().getName()));
 
     return new org.springframework.security.core.userdetails.User(
         username,
