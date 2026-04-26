@@ -2,6 +2,9 @@ application:
   auth:
     server:
       issuer: http://localhost:9000
+  rsa:
+    private-key: classpath:certs/private.pem
+    public-key: classpath:certs/public.pem
   cors:
     allowed-origins:
       - "http://localhost:4200"
@@ -28,7 +31,6 @@ server:
 logging:
   level:
     org.springframework.security: info
-    logging.level.org.springframework.security: TRACE
 
 spring:
   application:
