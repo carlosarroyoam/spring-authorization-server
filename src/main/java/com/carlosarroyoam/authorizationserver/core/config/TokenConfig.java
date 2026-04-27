@@ -3,6 +3,7 @@ package com.carlosarroyoam.authorizationserver.core.config;
 import com.carlosarroyoam.authorizationserver.auth.UserRepository;
 import com.carlosarroyoam.authorizationserver.auth.entity.Role;
 import com.carlosarroyoam.authorizationserver.auth.entity.User;
+import com.carlosarroyoam.authorizationserver.core.property.JwtProps;
 import java.time.Duration;
 import java.util.stream.Collectors;
 import org.springframework.context.annotation.Bean;
@@ -35,12 +36,12 @@ public class TokenConfig {
   }
 
   @Bean
-  TokenSettings tokenSettings() {
+  TokenSettings tokenSettings(JwtProps jwtProps) {
     return TokenSettings.builder()
-        .authorizationCodeTimeToLive(Duration.ofMinutes(5))
-        .accessTokenTimeToLive(Duration.ofMinutes(5))
-        .refreshTokenTimeToLive(Duration.ofHours(24))
-        .reuseRefreshTokens(true)
+        .authorizationCodeTimeToLive(Duration.ofMillis(jwtProps.getAuthorizationCodeTtlMs()))
+        .accessTokenTimeToLive(Duration.ofMillis(jwtProps.getAccessTokenTtlMs()))
+        .refreshTokenTimeToLive(Duration.ofMillis(jwtProps.getRefreshTokenTtlMs()))
+        .reuseRefreshTokens(Boolean.FALSE)
         .build();
   }
 }

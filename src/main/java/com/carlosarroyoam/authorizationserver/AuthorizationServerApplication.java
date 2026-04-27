@@ -21,10 +21,12 @@ public class AuthorizationServerApplication {
 
   @Bean
   CommandLineRunner initClients(
-      JdbcRegisteredClientRepository repo, PasswordEncoder encoder, TokenSettings tokenSettings) {
+      JdbcRegisteredClientRepository registeredClientRepository,
+      PasswordEncoder passwordEncoder,
+      TokenSettings tokenSettings) {
     return args -> {
-      if (repo.findByClientId("postman-client") == null) {
-        RegisteredClient postman =
+      if (registeredClientRepository.findByClientId("postman-client") == null) {
+        RegisteredClient postmanClient =
             RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("postman-client")
                 .clientSecret("$2a$12$UV2.X.CBDpj590jLkfGXXuS3qmj5XunygjpaR3X6L5wTYN8JQtGL.")
@@ -35,15 +37,19 @@ public class AuthorizationServerApplication {
                 .scope("openid")
                 .scope("profile")
                 .scope("email")
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+                .clientSettings(
+                    ClientSettings.builder()
+                        .requireAuthorizationConsent(Boolean.TRUE)
+                        .requireProofKey(Boolean.FALSE)
+                        .build())
                 .tokenSettings(tokenSettings)
                 .build();
 
-        repo.save(postman);
+        registeredClientRepository.save(postmanClient);
       }
 
-      if (repo.findByClientId("angular-client") == null) {
-        RegisteredClient angular =
+      if (registeredClientRepository.findByClientId("angular-client") == null) {
+        RegisteredClient angularClient =
             RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("angular-client")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
@@ -55,13 +61,13 @@ public class AuthorizationServerApplication {
                 .scope("email")
                 .clientSettings(
                     ClientSettings.builder()
-                        .requireAuthorizationConsent(true)
-                        .requireProofKey(true)
+                        .requireAuthorizationConsent(Boolean.TRUE)
+                        .requireProofKey(Boolean.TRUE)
                         .build())
                 .tokenSettings(tokenSettings)
                 .build();
 
-        repo.save(angular);
+        registeredClientRepository.save(angularClient);
       }
     };
   }

@@ -59,10 +59,10 @@ public class AuthorizationServerConfig {
 
   @Bean
   DaoAuthenticationProvider authProvider(
-      UserDetailsService userDetailsService, PasswordEncoder encoder) {
+      UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
     DaoAuthenticationProvider authenticationProvider =
         new DaoAuthenticationProvider(userDetailsService);
-    authenticationProvider.setPasswordEncoder(encoder);
+    authenticationProvider.setPasswordEncoder(passwordEncoder);
 
     return authenticationProvider;
   }
@@ -71,9 +71,8 @@ public class AuthorizationServerConfig {
   JwtEncoder jwtEncoder(RsaKeysProps rsaKeys) {
     JWK jwk =
         new RSAKey.Builder(rsaKeys.getPublicKey()).privateKey(rsaKeys.getPrivateKey()).build();
-    JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
 
-    return new NimbusJwtEncoder(jwks);
+    return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)));
   }
 
   @Bean

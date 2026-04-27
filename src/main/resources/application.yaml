@@ -5,6 +5,10 @@ application:
   rsa:
     private-key: classpath:certs/private.pem
     public-key: classpath:certs/public.pem
+  jwt:
+    authorization-code-ttl-ms: ${JWT_AUTHORIZATION_CODE_TTL_MS:300000}
+    access-token-ttl-ms: ${JWT_ACCESS_TOKEN_TTL_MS:300000}
+    refresh-token-ttl-ms: ${JWT_REFRESH_TOKEN_TTL_MS:86400000}
   cors:
     allowed-origins:
       - "http://localhost:4200"
