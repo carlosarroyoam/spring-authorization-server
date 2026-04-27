@@ -1,10 +1,5 @@
 package com.carlosarroyoam.authorizationserver.core.config;
 
-import com.carlosarroyoam.authorizationserver.core.property.RsaKeysProps;
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,10 +8,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
@@ -63,18 +54,5 @@ public class AuthorizationServerConfig {
     authenticationProvider.setPasswordEncoder(passwordEncoder);
 
     return authenticationProvider;
-  }
-
-  @Bean
-  JwtEncoder jwtEncoder(RsaKeysProps rsaKeys) {
-    JWK jwk =
-        new RSAKey.Builder(rsaKeys.getPublicKey()).privateKey(rsaKeys.getPrivateKey()).build();
-
-    return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)));
-  }
-
-  @Bean
-  JwtDecoder jwtDecoder(RsaKeysProps rsaKeys) {
-    return NimbusJwtDecoder.withPublicKey(rsaKeys.getPublicKey()).build();
   }
 }
