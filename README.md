@@ -7,16 +7,16 @@ A Spring Boot 3 application implementing an OAuth2 Authorization Server using Sp
 - OAuth2 Authorization Server with support for Authorization Code flow
 - JWT tokens signed with RSA keys
 - MySQL database for persistent storage
-- Pre-configured OAuth2 clients (Postman, Angular)
+- Pre-configured OAuth2 clients
 - Custom user authentication with JPA
 - CORS configuration support
 - Token customization settings
 
 ## Technology Stack
 
-- **Framework**: Spring Boot 3.5.14
+- **Framework**: Spring Boot 3.x
 - **Language**: Java 17
-- **Database**: MySQL
+- **Database:** MySQL 8.x
 - **Build Tool**: Maven
 - **Key Dependencies**:
   - spring-boot-starter-oauth2-authorization-server
@@ -28,14 +28,14 @@ A Spring Boot 3 application implementing an OAuth2 Authorization Server using Sp
 ## Prerequisites
 
 - Java 17+
-- MySQL 8.0+
 - Maven 3.8+
+- MySQL 8.0+
 
 ## Configuration
 
 ### RSA Keys
 
-The application includes pre-generated RSA keys in `src/main/resources/certs/`. To generate new keys:
+The application needs RSA keys in `src/main/resources/certs/`. To generate new keys:
 
 ```bash
 # Generate RSA private key (2048 bits)
@@ -48,14 +48,26 @@ openssl rsa -in src/main/resources/certs/keypair.pem -pubout -out src/main/resou
 openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in src/main/resources/certs/keypair.pem -out src/main/resources/certs/private.pem
 ```
 
-## Building and Running
+## Build
 
 ```bash
 # Build the project
-./mvnw clean package -DskipTests
+./mvnw clean package
+```
 
+## Run
+
+```bash
 # Run the application
 ./mvnw spring-boot:run
 ```
 
 The server will start at `http://localhost:9000`
+
+## API Documentation
+
+See `docs/openapi/api-docs.yaml` for OpenAPI specification.
+
+## Database Schema
+
+Schema defined in `src/main/resources/schema.sql` with initial data in `src/main/resources/data.sql`.
