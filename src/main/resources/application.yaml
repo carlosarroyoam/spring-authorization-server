@@ -1,3 +1,27 @@
+server:
+  port: 9000
+
+logging:
+  level:
+    root: info
+    org.springframework.security: info
+
+spring:
+  application:
+    name: authorization-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/authorization_server
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:toor}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format-sql: false
+    show-sql: false
+
 application:
   auth:
     server:
@@ -28,22 +52,3 @@ application:
     exposed-headers:
       - "x-xsrf-token"
     allow-credentials: false
-
-server:
-  port: 9000
-
-logging:
-  level:
-    org.springframework.security: info
-
-spring:
-  application:
-    name: authorization-server
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/authorization_server
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:toor}
-  jpa:
-    hibernate:
-      ddl-auto: validate
