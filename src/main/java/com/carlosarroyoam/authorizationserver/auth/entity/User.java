@@ -21,6 +21,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidad JPA que representa un usuario en la tabla {@code users}. Mantiene una relación muchos a
+ * muchos con {@link Role} a través de la tabla {@code user_roles} y usa borrado lógico.
+ */
 @Entity
 @Table(name = "users")
 @Getter

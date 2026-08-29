@@ -16,9 +16,22 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+/**
+ * Configuración de seguridad web. Define una cadena de filtros prioritaria para los endpoints
+ * OAuth2/OIDC, otra por defecto para el resto de peticiones y la fuente de configuración CORS.
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+  /**
+   * Cadena de filtros prioritaria que aplica solo a las rutas del protocolo OAuth2, habilita OpenID
+   * Connect y redirige a {@code /login} las peticiones HTML no autenticadas.
+   *
+   * @param http constructor de la configuración de seguridad
+   * @param corsConfigurationSource fuente de configuración CORS inyectada por Spring
+   * @return la cadena de filtros construida
+   * @throws Exception si falla la construcción de la configuración
+   */
   @Bean
   @Order(1)
   SecurityFilterChain authorizationServerSecurityFilterChain(
@@ -38,6 +51,14 @@ public class WebSecurityConfig {
     return http.build();
   }
 
+  /**
+   * Cadena de filtros por defecto: habilita CORS y el inicio de sesión por formulario, deja públicas
+   * {@code /login} y {@code /error} y exige autenticación para el resto.
+   *
+   * @param http constructor de la configuración de seguridad
+   * @return la cadena de filtros construida
+   * @throws Exception si falla la construcción de la configuración
+   */
   @Bean
   @Order(2)
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -56,6 +77,13 @@ public class WebSecurityConfig {
     return http.build();
   }
 
+  /**
+   * Construye la fuente de configuración CORS para todas las rutas a partir de los valores definidos
+   * en {@link CorsProps}.
+   *
+   * @param corsProps propiedades CORS enlazadas desde la configuración de la aplicación
+   * @return la fuente de configuración CORS
+   */
   @Bean
   CorsConfigurationSource corsConfigurationSource(CorsProps corsProps) {
     CorsConfiguration configuration = new CorsConfiguration();

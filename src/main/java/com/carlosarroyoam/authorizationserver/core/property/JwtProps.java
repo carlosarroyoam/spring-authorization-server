@@ -6,6 +6,10 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Propiedades de configuración de los tokens enlazadas desde el prefijo {@code application.jwt} (TTL
+ * en milisegundos del código de autorización, el access token y el refresh token).
+ */
 @Component
 @ConfigurationProperties(prefix = "application.jwt")
 @Getter

@@ -13,12 +13,29 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
+/**
+ * Punto de entrada de la aplicación del servidor de autorización OAuth2.
+ */
 @SpringBootApplication
 public class AuthorizationServerApplication {
+  /**
+   * Inicia la aplicación.
+   *
+   * @param args argumentos de línea de comandos que se pasan a Spring Boot
+   */
   public static void main(String[] args) {
     SpringApplication.run(AuthorizationServerApplication.class, args);
   }
 
+  /**
+   * Da de alta al arrancar los clientes {@code postman-client} y {@code angular-client} si aún no
+   * existen en el repositorio.
+   *
+   * @param registeredClientRepository repositorio JDBC donde se persisten los clientes
+   * @param passwordEncoder codificador de contraseñas del contexto
+   * @param tokenSettings configuración de tiempos de vida y rotación de tokens
+   * @return el {@link CommandLineRunner} que ejecuta el alta de clientes
+   */
   @Bean
   CommandLineRunner initClients(
       JdbcRegisteredClientRepository registeredClientRepository,

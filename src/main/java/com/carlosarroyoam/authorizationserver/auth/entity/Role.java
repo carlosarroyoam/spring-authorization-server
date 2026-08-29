@@ -12,6 +12,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entidad JPA que representa un rol en la tabla {@code roles}. Los roles se asignan a los usuarios y
+ * determinan las autoridades concedidas durante la autenticación.
+ */
 @Entity
 @Table(name = "roles")
 @Getter

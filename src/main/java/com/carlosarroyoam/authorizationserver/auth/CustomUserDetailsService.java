@@ -11,6 +11,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementación de {@link UserDetailsService} que carga los usuarios desde la base de datos usando
+ * el correo electrónico como nombre de usuario.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
   private final UserRepository userRepository;
@@ -19,6 +23,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     this.userRepository = userRepository;
   }
 
+  /**
+   * Carga un usuario por su correo electrónico y lo adapta al modelo de Spring Security. La consulta
+   * se ejecuta en una transacción de solo lectura para inicializar los roles.
+   *
+   * @param email correo electrónico usado como nombre de usuario
+   * @return los datos del usuario ({@link UserDetails}) para la autenticación
+   * @throws UsernameNotFoundException si no existe ningún usuario con ese correo
+   */
   @Override
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -28,6 +40,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
   }
 
+  /**
+   * Convierte la entidad {@link User} en un {@link UserDetails}. Cada rol pasa a ser una autoridad
+   * con prefijo {@code ROLE_} y el usuario se deshabilita si su estado no es {@code ACTIVE}.
+   *
+   * @param user entidad de usuario obtenida del repositorio
+   * @return los datos de autenticación equivalentes
+   */
   private UserDetails mapUser(User user) {
     Set<SimpleGrantedAuthority> autorities =
         user.getRoles().stream()
