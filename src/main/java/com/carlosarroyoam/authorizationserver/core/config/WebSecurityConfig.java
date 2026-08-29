@@ -8,6 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -39,7 +42,12 @@ public class WebSecurityConfig {
     OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
         OAuth2AuthorizationServerConfigurer.authorizationServer();
 
-    http.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+    http.csrf(CsrfConfigurer::disable)
+        .cors(cors -> cors.configurationSource(corsConfigurationSource))
+        .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+        .sessionManagement(
+            sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
         .with(authorizationServerConfigurer, auth -> auth.oidc(Customizer.withDefaults()))
         .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
         .exceptionHandling(
@@ -52,8 +60,8 @@ public class WebSecurityConfig {
   }
 
   /**
-   * Cadena de filtros por defecto: habilita CORS y el inicio de sesión por formulario, deja públicas
-   * {@code /login} y {@code /error} y exige autenticación para el resto.
+   * Cadena de filtros por defecto: habilita CORS y el inicio de sesión por formulario, deja
+   * públicas {@code /login} y {@code /error} y exige autenticación para el resto.
    *
    * @param http constructor de la configuración de seguridad
    * @return la cadena de filtros construida
@@ -78,8 +86,8 @@ public class WebSecurityConfig {
   }
 
   /**
-   * Construye la fuente de configuración CORS para todas las rutas a partir de los valores definidos
-   * en {@link CorsProps}.
+   * Construye la fuente de configuración CORS para todas las rutas a partir de los valores
+   * definidos en {@link CorsProps}.
    *
    * @param corsProps propiedades CORS enlazadas desde la configuración de la aplicación
    * @return la fuente de configuración CORS

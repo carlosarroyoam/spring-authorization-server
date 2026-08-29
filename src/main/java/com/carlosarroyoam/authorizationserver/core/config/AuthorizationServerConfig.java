@@ -50,7 +50,8 @@ public class AuthorizationServerConfig {
    * Servicio que persiste las autorizaciones OAuth2 (códigos y tokens emitidos) vía JDBC.
    *
    * @param jdbcTemplate plantilla JDBC hacia el datasource de la aplicación
-   * @param registeredClientRepository repositorio usado para resolver el cliente de cada autorización
+   * @param registeredClientRepository repositorio usado para resolver el cliente de cada
+   *     autorización
    * @return el servicio de autorizaciones
    */
   @Bean
@@ -84,8 +85,8 @@ public class AuthorizationServerConfig {
   }
 
   /**
-   * Proveedor de autenticación que valida las credenciales de usuario combinando el
-   * {@link UserDetailsService} de la aplicación con el {@link PasswordEncoder} BCrypt.
+   * Proveedor de autenticación que valida las credenciales de usuario combinando el {@link
+   * UserDetailsService} de la aplicación con el {@link PasswordEncoder} BCrypt.
    *
    * @param userDetailsService servicio que carga los usuarios por su correo
    * @param passwordEncoder codificador usado para comparar la contraseña recibida con la almacenada

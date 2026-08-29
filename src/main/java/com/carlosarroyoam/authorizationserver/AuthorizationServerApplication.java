@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
@@ -13,9 +12,7 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
-/**
- * Punto de entrada de la aplicación del servidor de autorización OAuth2.
- */
+/** Punto de entrada de la aplicación del servidor de autorización OAuth2. */
 @SpringBootApplication
 public class AuthorizationServerApplication {
   /**
@@ -32,14 +29,12 @@ public class AuthorizationServerApplication {
    * existen en el repositorio.
    *
    * @param registeredClientRepository repositorio JDBC donde se persisten los clientes
-   * @param passwordEncoder codificador de contraseñas del contexto
    * @param tokenSettings configuración de tiempos de vida y rotación de tokens
    * @return el {@link CommandLineRunner} que ejecuta el alta de clientes
    */
   @Bean
   CommandLineRunner initClients(
       JdbcRegisteredClientRepository registeredClientRepository,
-      PasswordEncoder passwordEncoder,
       TokenSettings tokenSettings) {
     return args -> {
       if (registeredClientRepository.findByClientId("postman-client") == null) {

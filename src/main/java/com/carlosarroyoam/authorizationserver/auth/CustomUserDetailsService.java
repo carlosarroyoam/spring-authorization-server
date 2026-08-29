@@ -24,8 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
   }
 
   /**
-   * Carga un usuario por su correo electrónico y lo adapta al modelo de Spring Security. La consulta
-   * se ejecuta en una transacción de solo lectura para inicializar los roles.
+   * Carga un usuario por su correo electrónico y lo adapta al modelo de Spring Security. La
+   * consulta se ejecuta en una transacción de solo lectura para inicializar los roles.
    *
    * @param email correo electrónico usado como nombre de usuario
    * @return los datos del usuario ({@link UserDetails}) para la autenticación

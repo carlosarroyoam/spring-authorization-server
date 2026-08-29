@@ -1,6 +1,5 @@
 package com.carlosarroyoam.authorizationserver.core.constants;
 
-
 /**
  * Constantes centralizadas con los mensajes de error usados en las excepciones de la API,
  * reutilizadas entre los distintos servicios para mantener consistencia en las respuestas de error.

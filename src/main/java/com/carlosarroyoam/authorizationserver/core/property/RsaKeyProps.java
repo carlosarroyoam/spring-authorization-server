@@ -9,8 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * Propiedades con el par de claves RSA (pública y privada) enlazadas desde el prefijo
- * {@code application.rsa}, usadas para firmar y verificar los JWT.
+ * Propiedades con el par de claves RSA (pública y privada) enlazadas desde el prefijo {@code
+ * application.rsa}, usadas para firmar y verificar los JWT.
  */
 @Component
 @ConfigurationProperties(prefix = "application.rsa")

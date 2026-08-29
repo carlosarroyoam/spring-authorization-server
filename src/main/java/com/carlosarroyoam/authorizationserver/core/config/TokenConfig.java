@@ -12,14 +12,12 @@ import org.springframework.security.oauth2.server.authorization.settings.TokenSe
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
-/**
- * Configuración de la personalización de claims y de los tiempos de vida de los tokens.
- */
+/** Configuración de la personalización de claims y de los tiempos de vida de los tokens. */
 @Configuration
 public class TokenConfig {
   /**
-   * Añade a los JWT emitidos los claims {@code email}, {@code user_id}, {@code name},
-   * {@code given_name}, {@code family_name} y {@code roles} del usuario autenticado.
+   * Añade a los JWT emitidos los claims {@code email}, {@code user_id}, {@code name}, {@code
+   * given_name}, {@code family_name} y {@code roles} del usuario autenticado.
    *
    * @param userRepository repositorio usado para cargar el usuario y sus roles
    * @return el personalizador aplicado a cada contexto de codificación JWT
