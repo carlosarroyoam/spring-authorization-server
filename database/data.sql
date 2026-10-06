@@ -1,3 +1,7 @@
+-- =============================================
+-- Spring Authorization Server - Seed data
+-- =============================================
+
 INSERT INTO roles (id, name, description) VALUES
 (1, 'ADMIN', 'Admin user role');
 

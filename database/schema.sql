@@ -1,5 +1,5 @@
 -- =============================================
--- Users - MySQL Schema
+-- Spring Authorization Server - MySQL Schema
 -- =============================================
 
 CREATE DATABASE IF NOT EXISTS `authorization_server`;
