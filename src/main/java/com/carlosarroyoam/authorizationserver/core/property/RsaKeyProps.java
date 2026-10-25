@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Propiedades con el par de claves RSA (pública y privada) enlazadas desde el prefijo {@code
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties(prefix = "application.rsa")
+@Validated
 @Getter
 @Setter
 public class RsaKeyProps {
