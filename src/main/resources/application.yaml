@@ -22,7 +22,7 @@ spring:
         format-sql: false
     show-sql: false
 
-application:
+app:
   auth:
     server:
       issuer: http://localhost:9000

@@ -11,17 +11,17 @@ import org.springframework.validation.annotation.Validated;
 
 /**
  * Propiedades con el par de claves RSA (pública y privada) enlazadas desde el prefijo {@code
- * application.rsa}, usadas para firmar y verificar los JWT.
+ * app.rsa}, usadas para firmar y verificar los JWT.
  */
 @Component
-@ConfigurationProperties(prefix = "application.rsa")
+@ConfigurationProperties(prefix = "app.rsa")
 @Validated
 @Getter
 @Setter
 public class RsaKeyProps {
-  @NotNull(message = "private-key must not be null")
+  @NotNull(message = "app.rsa.private-key must not be null")
   private RSAPrivateKey privateKey;
 
-  @NotNull(message = "public-key must not be null")
+  @NotNull(message = "app.rsa.public-key must not be null")
   private RSAPublicKey publicKey;
 }

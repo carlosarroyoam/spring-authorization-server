@@ -8,21 +8,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Propiedades de configuración de los tokens enlazadas desde el prefijo {@code application.jwt}
+ * Propiedades de configuración de los tokens enlazadas desde el prefijo {@code app.jwt}
  * (TTL en milisegundos del código de autorización, el access token y el refresh token).
  */
 @Component
-@ConfigurationProperties(prefix = "application.jwt")
+@ConfigurationProperties(prefix = "app.jwt")
 @Validated
 @Getter
 @Setter
 public class JwtProps {
-  @NotNull(message = "authorization-code-ttl-ms must not be null")
+  @NotNull(message = "app.jwt.authorization-code-ttl-ms must not be null")
   private long authorizationCodeTtlMs;
 
-  @NotNull(message = "access-token-ttl-ms must not be null")
+  @NotNull(message = "app.jwt.access-token-ttl-ms must not be null")
   private long accessTokenTtlMs;
 
-  @NotNull(message = "refresh-token-ttl-ms must not be null")
+  @NotNull(message = "app.jwt.refresh-token-ttl-ms must not be null")
   private long refreshTokenTtlMs;
 }

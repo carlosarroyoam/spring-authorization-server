@@ -26,12 +26,12 @@ public class AuthorizationServerConfig {
   /**
    * Configuración global del servidor de autorización.
    *
-   * @param issuer valor del emisor ({@code iss}) leído de {@code application.auth.server.issuer}
+   * @param issuer valor del emisor ({@code iss}) leído de {@code app.auth.server.issuer}
    * @return la configuración con el emisor establecido
    */
   @Bean
   AuthorizationServerSettings authorizationServerSettings(
-      @Value("${application.auth.server.issuer}") String issuer) {
+      @Value("${app.auth.server.issuer}") String issuer) {
     return AuthorizationServerSettings.builder().issuer(issuer).build();
   }
 
