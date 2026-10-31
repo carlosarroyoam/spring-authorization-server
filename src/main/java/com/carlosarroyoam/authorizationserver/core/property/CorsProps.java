@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Propiedades de configuración CORS enlazadas desde el prefijo {@code app.cors} (orígenes,
- * métodos, cabeceras permitidas y expuestas y uso de credenciales).
+ * Propiedades de configuración CORS enlazadas desde el prefijo {@code app.cors} (orígenes, métodos,
+ * cabeceras permitidas y expuestas y uso de credenciales).
  */
 @Component
 @ConfigurationProperties(prefix = "app.cors")

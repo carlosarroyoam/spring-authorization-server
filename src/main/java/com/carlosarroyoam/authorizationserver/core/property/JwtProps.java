@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Propiedades de configuración de los tokens enlazadas desde el prefijo {@code app.jwt}
- * (TTL en milisegundos del código de autorización, el access token y el refresh token).
+ * Propiedades de configuración de los tokens enlazadas desde el prefijo {@code app.jwt} (TTL en
+ * milisegundos del código de autorización, el access token y el refresh token).
  */
 @Component
 @ConfigurationProperties(prefix = "app.jwt")

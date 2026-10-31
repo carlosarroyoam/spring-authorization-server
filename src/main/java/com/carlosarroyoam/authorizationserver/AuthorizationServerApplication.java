@@ -34,8 +34,7 @@ public class AuthorizationServerApplication {
    */
   @Bean
   CommandLineRunner initClients(
-      JdbcRegisteredClientRepository registeredClientRepository,
-      TokenSettings tokenSettings) {
+      JdbcRegisteredClientRepository registeredClientRepository, TokenSettings tokenSettings) {
     return args -> {
       if (registeredClientRepository.findByClientId("postman-client") == null) {
         RegisteredClient postmanClient =
