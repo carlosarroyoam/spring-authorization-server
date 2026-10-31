@@ -50,11 +50,10 @@ public class WebSecurityConfig {
         .securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
         .with(authorizationServerConfigurer, auth -> auth.oidc(Customizer.withDefaults()))
         .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
-        .exceptionHandling(
-            ex ->
-                ex.defaultAuthenticationEntryPointFor(
-                    new LoginUrlAuthenticationEntryPoint("/login"),
-                    new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
+        .exceptionHandling(ex ->
+            ex.defaultAuthenticationEntryPointFor(
+                new LoginUrlAuthenticationEntryPoint("/login"),
+                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
 
     return http.build();
   }
@@ -72,15 +71,14 @@ public class WebSecurityConfig {
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
     http.cors(Customizer.withDefaults()).formLogin(Customizer.withDefaults());
 
-    http.authorizeHttpRequests(
-        authorize ->
-            authorize
-                .requestMatchers("/login")
-                .permitAll()
-                .requestMatchers("/error")
-                .permitAll()
-                .anyRequest()
-                .authenticated());
+    http.authorizeHttpRequests(authorize ->
+        authorize
+            .requestMatchers("/login")
+            .permitAll()
+            .requestMatchers("/error")
+            .permitAll()
+            .anyRequest()
+            .authenticated());
 
     return http.build();
   }
