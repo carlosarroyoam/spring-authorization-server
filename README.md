@@ -15,7 +15,7 @@ A Spring Boot 3 application implementing an OAuth2 Authorization Server using Sp
 ## Technology Stack
 
 - **Framework**: Spring Boot 3.x
-- **Language**: Java 17
+- **Language**: Java 25
 - **Database:** MySQL 8.x
 - **Build Tool**: Maven
 
@@ -29,7 +29,7 @@ A Spring Boot 3 application implementing an OAuth2 Authorization Server using Sp
 
 ## Prerequisites
 
-- Java 17+
+- Java 25+
 - Maven 3.8+
 - MySQL 8.0+
 
