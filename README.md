@@ -21,11 +21,11 @@ A Spring Boot 3 application implementing an OAuth2 Authorization Server using Sp
 
 ## Dependencies
 
-  - spring-boot-starter-oauth2-authorization-server
-  - spring-boot-starter-data-jpa
-  - spring-boot-starter-jdbc
-  - mysql-connector-j
-  - lombok
+- spring-boot-starter-oauth2-authorization-server
+- spring-boot-starter-data-jpa
+- spring-boot-starter-jdbc
+- mysql-connector-j
+- lombok
 
 ## Prerequisites
 
@@ -75,4 +75,5 @@ See `docs/openapi/api-docs.yaml` for OpenAPI specification.
 Schema defined in `src/main/resources/schema.sql` with initial data in `src/main/resources/data.sql`.
 
 ## License
+
 This project is licensed under Apache 2.0. See [`LICENSE`](LICENSE).
