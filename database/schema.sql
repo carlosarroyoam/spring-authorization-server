@@ -2,9 +2,9 @@
 -- Spring Authorization Server - MySQL Schema
 -- =============================================
 
-CREATE DATABASE IF NOT EXISTS `authorization_server`;
+CREATE DATABASE IF NOT EXISTS `authorization-server`;
 
-USE `authorization_server`;
+USE `authorization-server`;
 
 CREATE TABLE IF NOT EXISTS roles (
     id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,

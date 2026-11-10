@@ -2,6 +2,8 @@
 -- Spring Authorization Server - Seed data
 -- =============================================
 
+USE `authorization-server`;
+
 INSERT INTO roles (id, name, description) VALUES
 (1, 'ADMIN', 'Admin user role');
 
